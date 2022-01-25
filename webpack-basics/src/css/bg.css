@@ -1,0 +1,6 @@
+.bg-img {
+  background-image: url(../img/ai.jpg);
+  border: 1px solid black;
+  width: 400px;
+  height: 400px;
+}
