@@ -1,9 +1,3 @@
----
-title: webpack 基础学习笔记
-date: 2022-01-24 11:33:05
-tags: [webpack, 连载]
-copyright: true
----
 # webpack 初体验
 
 运行命令初始化 package.json。
