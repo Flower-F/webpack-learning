@@ -1,15 +1,16 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { DefinePlugin } = require("webpack");
-const chalk = require("chalk");
-const ProgressBarPlugin = require("progress-bar-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   entry: "./src/index.tsx",
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
   },
-  cache: {
-    type: "filesystem",
+  mode: "production",
+  output: {
+    filename: "content.js",
+    path: path.join(__dirname, "./dist"),
+    clean: true,
   },
   module: {
     rules: [
@@ -21,6 +22,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               esModule: false,
+              module: true,
             },
           },
           "postcss-loader",
@@ -28,17 +30,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          "style-loader",
-          {
-            loader: "css-loader",
-            options: {
-              esModule: false,
-            },
-          },
-          "postcss-loader",
-          "sass-loader",
-        ],
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
       },
       {
         test: /\.tsx?$/i,
@@ -72,15 +64,15 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: "Webpack Learning",
-      template: "./public/index.html",
-    }),
-    new DefinePlugin({
-      BASE_URL: '"./"',
-    }),
-    new ProgressBarPlugin({
-      format: `  :msg [:bar] ${chalk.green.bold(":percent")} (:elapsed s)`,
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "public",
+          globOptions: {
+            ignore: ["**/index.html"],
+          },
+        },
+      ],
     }),
   ],
 };
